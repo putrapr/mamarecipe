@@ -1,3 +1,49 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face { 
+  font-family: "Airbnb"; 
+  src: url("fonts/airbnb/AirbnbCereal_W_Bk.otf"); 
+}
+
+.hamburger-line {
+  @apply w-[30px] h-[2px] my-2 block bg-primary;
+}
+
+.hamburger-active > span:nth-child(1) {
+  @apply rotate-45; 
+}
+
+.hamburger-active > span:nth-child(2) {
+  @apply scale-0;
+}
+
+.hamburger-active > span:nth-child(3) {
+  @apply -rotate-45;
+}
+
+.outline-corner {
+  box-shadow: 
+   22px 22px white,
+   24px 20px yellow,
+   24px 24px yellow,
+   20px 24px yellow;
+}
+
+@layer base {
+  .active {
+    @apply border-b-2;
+  }
+}
+
+
+@layer utilities {
+  .outline-corner-lg {
+    box-shadow: 
+     44px 42px white,
+     46px 40px yellow,
+     46px 44px yellow,
+     42px 44px yellow;
+  }
+}

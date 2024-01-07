@@ -5,7 +5,20 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    container: {
+      center: true,
+    },
+    fontFamily: {
+      sans: ['"Airbnb"', 'sans-serif']
+      },
+    extend: {
+      colors: {
+        primary: '#EFC81A'
+      },
+      width: {
+        '3/10': '30%'
+      }
+    },
   },
   plugins: [],
 }
