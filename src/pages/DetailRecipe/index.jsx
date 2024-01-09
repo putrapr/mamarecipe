@@ -1,8 +1,41 @@
-import { Link } from 'react-router-dom'
+/* eslint-disable no-unused-vars */
+
+import { useState, useEffect } from 'react'
+import { Link, useParams } from 'react-router-dom'
+import axios from 'axios'
 
 const DetailRecipe = () => {
+  const {id} = useParams()
+  const BASE_URL = import.meta.env.VITE_API_URL
+  const [recipes, setRecipes] = useState([])
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+
+  const getRecipe = () => {
+    axios.get(`${BASE_URL}/recipeById/${id}`)
+      .then((res) => {
+        setRecipes(res.data.data.rows);
+      })
+      .catch((err) => {
+        setIsError(true);
+        setErrorMessage(err.message);
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
+  }
+
+  useEffect( () => {
+    getRecipe();
+  }, []);
+
+  console.log(recipes)
+  
   return (
     <>
+      
       {/* Title Start */}
       <section className="flex flex-col justify-start items-center max-sm:mt-14 mt-28 gap-14">
         <h1 className="max-lg:text-5xl text-[3.5rem] text-[#2E266F] font-bold text-center mx-5">Loream Sandwich</h1>
