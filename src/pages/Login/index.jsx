@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import Input from "../../components/base/Input"
 
 const Login = () => {
   return (
@@ -16,10 +17,10 @@ const Login = () => {
           <p className="text-[#8692A6] mb-6">Log in into your exiting account</p>
             <form action="/" className="w-1/2 max-sm:w-4/5 max-lg:w-3/4  flex flex-col justify-start">
               <label className="text-[#696F79] mb-1" htmlFor="email">Email</label>
-              <input type="text" className="w-full border border-[#8692A6] rounded p-3 mb-4 text-sm focus:drop-shadow-md  focus:outline-primary" id="email" placeholder="examplexxx@gmail.com"/>
+              <Input type="text" id="email" placeholder="examplexxx@gmail.com"/>
               
               <label className="text-[#696F79] mb-1" htmlFor="password">Password</label>
-              <input type="text" className="w-full border border-[#8692A6] rounded p-3 mb-3 text-sm focus:drop-shadow-md focus:outline-primary" id="password" placeholder="Password"/>
+              <Input type="password" id="password" placeholder="Password"/>
               
               <div className="flex flex-row gap-x-3 mb-7">
                 <input type="checkbox" name="terms" id="cb-terms" className="accent-primary mb-0.5 w-4"/>
