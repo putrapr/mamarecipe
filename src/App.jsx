@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Pages from './pages'
 import Login from './pages/Login'
 import Register from './pages/Register'
@@ -8,6 +8,19 @@ import VideoRecipe from './pages/VideoRecipe'
 import AddRecipe from './pages/AddRecipe'
 import Profile from './pages/Profile'
 
+const PrivateRoute = ({children}) => {
+  const token = localStorage.getItem('token')
+  if (!token)
+    return <Navigate to="/login" replace />
+  return children
+}
+
+const PublicRoute = ({children}) => {
+  const token = localStorage.getItem('token')
+  if (token)
+    return <Navigate to="/" replace />
+  return children
+}
 
 const App = () => {
   return (
@@ -16,12 +29,36 @@ const App = () => {
         <Route path='/' element={<Pages/>}>
           <Route path='' element={<Home />} />
           <Route path='recipe/:id' element={<DetailRecipe />} />
-          <Route path='recipe-video' element={<VideoRecipe />} />
-          <Route path='recipe-add' element={<AddRecipe />} />
-          <Route path='profile' element={<Profile />} />
+          <Route path='recipe-video/:id' element={<VideoRecipe />} />       
+          <Route path='recipe-add' 
+            element={
+              <PrivateRoute>
+                <AddRecipe />
+              </PrivateRoute>              
+            } 
+          />
+          <Route path='profile' 
+            element={
+              <PrivateRoute>
+                <Profile />
+              </PrivateRoute>              
+            } 
+          />
         </Route>
-        <Route path='login' element={<Login />} />
-        <Route path='register' element={<Register />} />
+        <Route path='login' 
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>            
+          } 
+        />
+        <Route path='register' 
+          element={
+            <PublicRoute>
+              <Register />
+            </PublicRoute>            
+          } 
+        />
       </Routes>
     </BrowserRouter>
   )

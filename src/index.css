@@ -4,7 +4,7 @@
 
 @font-face { 
   font-family: "Airbnb"; 
-  src: url("fonts/airbnb/AirbnbCereal_W_Bk.otf"); 
+  src: url("./assets/fonts/airbnb/AirbnbCereal_W_Bk.otf"); 
 }
 
 .hamburger-line {

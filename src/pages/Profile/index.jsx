@@ -7,19 +7,19 @@ const Profile = () => {
   const user_id = 1
   const [recipes, setRecipes] = useState([])
   const [recipe, setRecipe] = useState({})
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(true)
+  const [isError, setIsError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
+  const [showModal, setShowModal] = useState(false)
 
   const getRecipes = () => {
-    axios.get(`${BASE_URL}/recipe/${user_id}`)
+    axios.get(`${BASE_URL}/recipeByUserId/${user_id}`)
       .then((res) => {
-        setRecipes(res.data.data.rows);
+        setRecipes(res.data.data)
       })
       .catch((err) => {
-        setIsError(true);
-        setErrorMessage(err.message);
+        setIsError(true)
+        setErrorMessage(err.message)
       })
       .finally(() => {
         setIsLoading(false)
@@ -34,17 +34,14 @@ const Profile = () => {
     const result = confirm("Are you sure to delete?");
     if (!result) return
 
-    setTimeout(()=> {
-      location.reload();
-    },1000);
-
     const id = e.target.id;
     axios.delete(`${BASE_URL}/recipe/${id}`)
       .then(() => {
         alert("Berhasil dihapus")
+        getRecipes()
       })
       .catch((err) => {
-        setIsError(true);
+        setIsError(true)
         setErrorMessage(err.message)
       })
   };
@@ -53,8 +50,7 @@ const Profile = () => {
     e.preventDefault()    
     for (let i=0; i< recipes.length; i++){
       if (recipes[i].id == e.target.id)
-        // setRecipe(prevState => ({ ...prevState, ...recipes[i] }));
-        setRecipe(recipes[i]);
+        setRecipe(recipes[i])
     }
     setShowModal(true)
   }
@@ -65,20 +61,14 @@ const Profile = () => {
     axios.put(`${BASE_URL}/recipe/${recipe.id}`, formData)
       .then(() => {
         setShowModal(false)
-        alert("Recipe Updated");
-        // setTimeout(() => {
-        //   location.reload();
-        // },500); 
+        alert("Recipe Updated")
         getRecipes()           
       })
       .catch((err) => {        
         setIsError(true);
-        setErrorMessage(err.message);
+        setErrorMessage(err.message)
         setShowModal(false)
-        alert("Update Recipe Failed");
-        // setTimeout(() => {
-        //   location.reload();
-        // }, 500);        
+        alert("Update Recipe Failed")
       });
   }
 
@@ -150,7 +140,6 @@ const Profile = () => {
                     {/*body*/}                  
                     <div className="relative p-6 flex-auto">
                       <div className='grid grid-cols-[100px_auto] gap-2'>
-                        {/* <input type="text" name="id" value={recipe.id} hidden/> */}
                         <input type="hidden" name="user_id" value={recipe.user_id}/>
 
                         <label className='p-2'>Image</label>
@@ -188,8 +177,8 @@ const Profile = () => {
             </div>
             <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
           </>
-        ) : null}
-      </>
+          ) : null} 
+        </>
       }
     </>
   )

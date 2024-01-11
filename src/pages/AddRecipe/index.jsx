@@ -42,7 +42,7 @@ const AddRecipe = () => {
         </label>
         <input type="file" id="add-photo" name="image" onChange={handleChangeImage} hidden/>
         {showImage && (
-          <img src={showImage ?? ""} alt="show" className='w-52 w-52 sm:w-96 sm:h-96 rounded object-cover' />
+          <img src={showImage ?? ""} alt="show" className='w-52 sm:w-96 sm:h-96 rounded object-cover' />
         )}
 
 
@@ -56,7 +56,7 @@ const AddRecipe = () => {
           name="ingredient"
         ></textarea>
         <input className="bg-[#F6F5F4] w-full h-20 rounded-lg indent-10 text-lg placeholder:text-[#666666] placeholder:font-bold placeholder:tracking-wider" 
-          placeholder="Video Link"
+          placeholder="Youtube Video Link"
           type="text"
           name="video_link"
         />
