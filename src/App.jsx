@@ -8,6 +8,7 @@ import VideoRecipe from './pages/VideoRecipe'
 import AddRecipe from './pages/AddRecipe'
 import Profile from './pages/Profile'
 import { jwtDecode } from "jwt-decode";
+import PropTypes from 'prop-types';
 
 const PrivateRoute = ({children}) => {
   const token = localStorage.getItem('token')
@@ -17,11 +18,20 @@ const PrivateRoute = ({children}) => {
   return children
 }
 
+PrivateRoute.PropTypes = {
+  children: PropTypes.node.isRequired
+}
+
 const PublicRoute = ({children}) => {
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem('token')  
+  console.log("tipe token public: "+ token)
   if (token)
     return <Navigate to="/" replace />
   return children
+}
+
+PublicRoute.PropTypes = {
+  children: PropTypes.node.isRequired
 }
 
 const App = () => {

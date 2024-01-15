@@ -4,8 +4,15 @@ import { jwtDecode } from "jwt-decode";
 
 const index = () => {
   const token = localStorage.getItem('token')
-  const decoded = jwtDecode(token);
-  const isLogin = (!token || Date.now() >= decoded.exp * 1000) ? false : true
+  console.log("tipe token nav: "+ typeof token)
+  console.log(token? 'true': 'false')
+  let isLogin=false;
+  if (token) {
+    const decoded = jwtDecode(token)
+    if (Date.now() <= decoded.exp * 1000)
+      isLogin = true
+  }
+  // const isLogin = (!token || Date.now() >= decoded.exp * 1000) ? false : true
   const display = (isLogin) ? 'flex' : 'hidden'
 
   function handleHamburger() {

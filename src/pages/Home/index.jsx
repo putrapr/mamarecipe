@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 
 const Home = () => {
   const dispatch = useDispatch()
-  const { recipes, loading, error } = useSelector((state) => state.recipe)
+  const { loading, error } = useSelector((state) => state.recipe)
 
   const getRecipes = async () => {
     try {
@@ -22,7 +22,7 @@ const Home = () => {
     { loading ? <h1>Loading</h1> 
       : error ? <h1>Error</h1> : 
       <>
-      {recipes[0] ? console.log(recipes[0].image): console.log('recipe loading')}
+      {/* {recipes[0] ? console.log(recipes[0].image): console.log('recipe loading')} */}
         {/* Search Start */}
         <section className="max-[500px]:h-[30rem] h-[26rem] md:h-[30rem] lg:h-[40rem] xl:h-[52rem] relative">
           <div className="flex w-full h-full">
