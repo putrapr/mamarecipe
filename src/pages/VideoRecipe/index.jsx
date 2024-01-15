@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import axios from 'axios'
@@ -27,14 +28,10 @@ const VideoRecipe = () => {
       .finally(() => {
         setIsLoading(false) 
       })
-    
-    // console.log(recipes)
-    //get recipe by id
   }
 
   useEffect( () => {
     getRecipes()
-    console.log(recipes)
   }, []);
   
   // if (video_link) {

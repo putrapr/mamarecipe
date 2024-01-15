@@ -17,7 +17,6 @@ export const Recipes = () => async(mydispatch) => {
     mydispatch({type: 'RECIPE_REQUEST'})
     const res = await api.get('/recipes')
     mydispatch({type: 'RECIPES', payload: res.data.data})
-    // console.log(res.data.data)
   } catch(err) {
     mydispatch({type: 'RECIPE_ERROR', payload: err.message})
     alert(err.message)

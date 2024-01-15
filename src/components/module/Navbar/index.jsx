@@ -4,8 +4,6 @@ import { jwtDecode } from "jwt-decode";
 
 const index = () => {
   const token = localStorage.getItem('token')
-  console.log("tipe token nav: "+ typeof token)
-  console.log(token? 'true': 'false')
   let isLogin=false;
   if (token) {
     const decoded = jwtDecode(token)

@@ -24,7 +24,6 @@ PrivateRoute.PropTypes = {
 
 const PublicRoute = ({children}) => {
   const token = localStorage.getItem('token')  
-  console.log("tipe token public: "+ token)
   if (token)
     return <Navigate to="/" replace />
   return children
