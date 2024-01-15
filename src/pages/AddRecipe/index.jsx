@@ -1,25 +1,36 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import { useSelector, useDispatch } from "react-redux"
+import { addRecipe } from '../../redux/action/recipeAction.js'
 
 const AddRecipe = () => {
-  const navigate = useNavigate();
-  const BASE_URL = import.meta.env.VITE_API_URL
-  const [showImage, setShowImage] = useState("");
+  const { loading } = useSelector((state) => state.user)
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  // const BASE_URL = import.meta.env.VITE_API_URL
+  const [showImage, setShowImage] = useState("")
 
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
-    const formData = new FormData(document.querySelector("form"))
-    axios.post(`${BASE_URL}/recipe`, formData)
-      .then(() => {
-        alert("Recipe Added")
-        navigate('/profile')
-      })
-      .catch((err) => {
-        console.log(err.message)
-        navigate('/recipe-add')
-      })
+    try {
+      const formData = new FormData(document.querySelector("form"))
+      await dispatch(addRecipe(formData))
+      navigate('/profile')
+    } catch(err) { 
+      navigate('/recipe-add')
+    }
+    
+    
+    // axios.post(`${BASE_URL}/recipe`, formData)
+    //   .then(() => {
+    //     alert("Recipe Added")
+    //     navigate('/profile')
+    //   })
+    //   .catch((err) => {
+    //     navigate('/recipe-add')
+    //   })
+
   }
 
   function handleChangeImage(e) {
@@ -62,7 +73,7 @@ const AddRecipe = () => {
         />
         <button className="bg-primary w-80 h-12 rounded text-xs text-white mt-10"
           type="submit"
-        >Post</button>
+        > { loading ? '...Loading': 'Post'}</button>
       </form>
       {/* Form Add Recipe End */}
     </>

@@ -1,32 +1,24 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom"
 import Input from "../../components/base/Input"
-import axios from "axios";
+import { useSelector, useDispatch } from "react-redux"
+import { login } from '../../redux/action/userAction'
 
 const Login = () => {
-  const BASE_URL = import.meta.env.VITE_API_URL
+  const { loading } = useSelector((state) => state.user)
   const navigate = useNavigate()
-  const [loading, setLoading] = useState(false)
+  const dispatch = useDispatch()
   const [form, setForm] = useState({
     email: '',
     password: '',
   })
 
-  const handleLogin = async (e) => {   
-    try {
-      e.preventDefault()
-      setLoading(true)
-      const response = await axios.post(`${BASE_URL}/user-login`, form)
-      setLoading(false)
-      if (!response.data.token)
-        return alert('wrong email / password')
-      localStorage.setItem('token', response.data.token)
-      alert('Login Success')
+  const handleLogin = async (e) => {
+    e.preventDefault()
+    try {      
+      await dispatch(login(form))      
       navigate('/')
-    } catch (err) {
-      alert("login failed")
-      setLoading(false)
-    }
+    } catch (err) { /* empty */ }
   }
 
   return (

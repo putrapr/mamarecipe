@@ -1,9 +1,12 @@
 import { Link, NavLink } from 'react-router-dom'
 import iconUser from '../../../assets/icon/user.svg'
+import { jwtDecode } from "jwt-decode";
 
 const index = () => {
   const token = localStorage.getItem('token')
-  const display = (token)? 'flex' : 'hidden'
+  const decoded = jwtDecode(token);
+  const isLogin = (!token || Date.now() >= decoded.exp * 1000) ? false : true
+  const display = (isLogin) ? 'flex' : 'hidden'
 
   function handleHamburger() {
     const hamburger = document.querySelector('#hamburger');
@@ -47,7 +50,7 @@ const index = () => {
           </div>
           {/* If in home text-white */}
           <p className="text-black text-sm"> 
-            { localStorage.getItem("token") ? 'Logout' : 'Login' }
+            { isLogin ? 'Logout' : 'Login' }
           </p>
         </Link>
       </div>

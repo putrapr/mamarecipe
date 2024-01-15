@@ -1,59 +1,74 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux'
-import { RecipesByUser, deleteRecipe, setRecipe, updateRecipe } from '../../redux/action/recipeAction'
+import { RecipesByUser } from '../../redux/action/recipeAction'
 
 const Profile = () => {
+  // const BASE_URL = import.meta.env.VITE_API_URL
+  // const user_id = 1
+  const { recipesUser, loading, error, errorMessage } = useSelector((state) => state.recipe)
   const dispatch = useDispatch()
-  const { recipesUser, recipe, error, errorMessage } = useSelector((state) => state.recipe)
-  const [loading, setLoading] = useState(false)
+  console.log('loading: '+loading)
+  console.log('error: '+error)
+  // const [recipes, setRecipes] = useState([])
+  // const [recipe, setRecipe] = useState({})
+  // const [isLoading, setIsLoading] = useState(false)
+  // const [isError, setIsError] = useState(false)
+  // const [errorMessage, setErrorMessage] = useState("")
   const [showModal, setShowModal] = useState(false)
 
   const getRecipes = async () => {
-    try {      
-      await dispatch(RecipesByUser())      
-    } catch(err){ /* empty */ }
-    
+    // axios.get(`${BASE_URL}/recipeByUserId/${user_id}`)
+    //   .then((res) => {
+    //     setRecipes(res.data.data)
+    //   })
+    //   .catch((err) => {
+    //     setIsError(true)
+    //     setErrorMessage(err.message)
+    //   })
+    //   .finally(() => {
+    //     setIsLoading(false)
+    //   })
+    await dispatch(RecipesByUser()) 
   };
 
   useEffect( () => {
-    setLoading(true)
-    getRecipes()
-    setLoading(false)
-    
+    console.log('masuk use effect')
+    // getRecipes();
+    dispatch(RecipesByUser())
+    // dispatch(RecipesByUser())    
+    console.log(recipesUser)
   }, []);
 
-  const handleDelete = async (e) => {
+  const handleDelete = (e) => {
     const result = confirm("Are you sure to delete?");
     if (!result) return
 
-    await dispatch(deleteRecipe(e.target.id))
-    getRecipes()
+    const id = e.target.id;
+    axios.delete(`${BASE_URL}/recipe/${id}`)
+      .then(() => {
+        alert("Berhasil dihapus")
+        getRecipes()
+      })
+      .catch((err) => {
+        // setIsError(true)
+        // setErrorMessage(err.message)
+      })
   };
 
-  const updateOnClick = (e) => {    
-    e.preventDefault()
-    for (let i=0; i< recipesUser.length; i++){
-      if (recipesUser[i].id == e.target.id)
-        dispatch(setRecipe(recipesUser[i]))
-    }
+  const updateClick = (e) => {
+    e.preventDefault()    
+    // for (let i=0; i< recipes.length; i++){
+    //   if (recipes[i].id == e.target.id)
+    //     setRecipe(recipes[i])
+    // }
     setShowModal(true)
   }
 
-  const handleUpdate = async (e) => {
-    e.preventDefault();    
+  const handleUpdate = (e) => {
+    e.preventDefault(); 
     const formData = new FormData(document.getElementById("updateForm"));
-    try {
-      await dispatch(updateRecipe(recipe.id, formData))      
-      getRecipes()
-      setShowModal(false)
-      alert("Recipe Updated")   
-    } catch(err) {      
-      setShowModal(false)
-      alert(err.message)   
-     }
-    
-    
     // axios.put(`${BASE_URL}/recipe/${recipe.id}`, formData)
     //   .then(() => {
     //     setShowModal(false)
@@ -67,10 +82,10 @@ const Profile = () => {
     //     alert("Update Recipe Failed")
     //   });
   }
-  
+
   return (
     <>
-      { loading ? <h1>Loading</h1> 
+      { !loading ? <h1>Loading</h1> 
         : error ? <h1>Error</h1> : 
         <>        
           {/* Photo Profile Start */}
@@ -106,7 +121,7 @@ const Profile = () => {
                   <div className="w-full absolute left-0 max-lg:bottom-2 bottom-5 bg-[rgba(0,0,0,.3)]">
                     <p className="text-white max-lg:text-lg text-xl px-5">{ item.title }</p>
                   </div>
-                  <button type="button" onClick={(e) => updateOnClick(e)} id={item.id} className="absolute top-2 left-2 text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Update</button>
+                  <button type="button" onClick={(e) => updateClick(e)} id={item.id} className="absolute top-2 left-2 text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Update</button>
                   <button type="button" id={item.id} onClick={e => handleDelete(e)} className="absolute top-2 right-0 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Delete</button>
                 </div>
               ))
@@ -146,11 +161,10 @@ const Profile = () => {
 
                         <label htmlFor="ingredient" className='p-2'>Ingredient</label>
                         <textarea cols="30" rows="10" className='border p-2'
-                          defaultValue={recipe.ingredient}
                           placeholder="Ingredients"
                           name="ingredient"
                           id="ingredient"                        
-                        ></textarea>
+                        >{recipe.ingredient}</textarea>
 
                         <label htmlFor="video_link" className='p-2'>Video Link</label>
                         <input type="text" name='video_link' defaultValue={recipe.video_link} id="video_link" className='border p-2'/>
@@ -165,8 +179,8 @@ const Profile = () => {
                       >Close</button>
                       <button
                         className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                        type="submit" 
-                      >{loading ? '...Loading': 'Update Recipe'}</button>
+                        type="submit"
+                      >Update Recipe</button>
                     </div>
                   </form>
                 </div>

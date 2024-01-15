@@ -1,10 +1,11 @@
 import { Link, useNavigate } from "react-router-dom"
 import Input from "../../components/base/Input"
-import axios from 'axios'
+import { useDispatch } from "react-redux"
+import { register } from '../../redux/action/userAction'
 
 const Register = () => {
-  const BASE_URL = import.meta.env.VITE_API_URL
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -18,18 +19,15 @@ const Register = () => {
       password: pass,
       name: e.target.name.value,
       phone: e.target.phone.value,
-      image: 'default.jpg',
-      role: 'user'
+      image: 'default.jpg'
     }
     
     try {
-      await axios.post(`${BASE_URL}/user`, data)
-      alert('Account Registered')
+      await dispatch(register(data))      
       navigate('/login')
-    } catch (err) {
-      alert(err.message)
-    }
+    } catch (err) { /* empty */ }
   }
+  
   return (
     <div className="2xl:container 2xl:mx-auto">   
       <div className="w-full flex max-sm:justify-center max-sm:items-center

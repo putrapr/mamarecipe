@@ -7,10 +7,12 @@ import DetailRecipe from './pages/DetailRecipe'
 import VideoRecipe from './pages/VideoRecipe'
 import AddRecipe from './pages/AddRecipe'
 import Profile from './pages/Profile'
+import { jwtDecode } from "jwt-decode";
 
 const PrivateRoute = ({children}) => {
   const token = localStorage.getItem('token')
-  if (!token)
+  const decoded = jwtDecode(token);
+  if (!token || Date.now() >= decoded.exp * 1000)
     return <Navigate to="/login" replace />
   return children
 }
