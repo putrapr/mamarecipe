@@ -6,19 +6,19 @@ const initialState = {
 
 const userReducer = (state = initialState, action)=> {
   switch(action.type) {
-    case 'REQUEST':
+    case 'USER_REQUEST':
       return {
         ...state,
         loading: true
       }
 
-    case 'SUCCESS':
+    case 'USER_SUCCESS':
       return {
         ...state,
         loading:false,
       }    
 
-    case 'ERROR':
+    case 'USER_ERROR':
       return {
         ...state,
         loading:false,

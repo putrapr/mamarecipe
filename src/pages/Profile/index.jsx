@@ -5,22 +5,17 @@ import { RecipesByUser, deleteRecipe, setRecipe, updateRecipe } from '../../redu
 
 const Profile = () => {
   const dispatch = useDispatch()
-  const { recipesUser, recipe, error, errorMessage } = useSelector((state) => state.recipe)
-  const [loading, setLoading] = useState(false)
+  const { recipesUser, recipe, loading, error, errorMessage } = useSelector((state) => state.recipe)
   const [showModal, setShowModal] = useState(false)
-
+  
   const getRecipes = async () => {
     try {      
       await dispatch(RecipesByUser())      
-    } catch(err){ /* empty */ }
-    
+    } catch(err){ /* empty */ }    
   };
 
   useEffect( () => {
-    setLoading(true)
-    getRecipes()
-    setLoading(false)
-    
+    getRecipes()    
   }, []);
 
   const handleDelete = async (e) => {
@@ -52,20 +47,6 @@ const Profile = () => {
       setShowModal(false)
       alert(err.message)   
      }
-    
-    
-    // axios.put(`${BASE_URL}/recipe/${recipe.id}`, formData)
-    //   .then(() => {
-    //     setShowModal(false)
-    //     alert("Recipe Updated")
-    //     getRecipes()           
-    //   })
-    //   .catch((err) => {        
-    //     // setIsError(true);
-    //     // setErrorMessage(err.message)
-    //     setShowModal(false)
-    //     alert("Update Recipe Failed")
-    //   });
   }
   
   return (
@@ -166,7 +147,7 @@ const Profile = () => {
                       <button
                         className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         type="submit" 
-                      >{loading ? '...Loading': 'Update Recipe'}</button>
+                      >Update Recipe</button>
                     </div>
                   </form>
                 </div>

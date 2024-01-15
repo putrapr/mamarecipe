@@ -1,4 +1,5 @@
 const initialState = {
+  recipes: [],
   recipesUser: [],
   recipe: {},
   loading: false,
@@ -8,25 +9,32 @@ const initialState = {
 
 const recipeReducer = (state = initialState, action) => {
     switch(action.type) {
-    case 'REQUEST':
+    case 'RECIPE_REQUEST':
       return {
         ...state,
         loading: true
       }
 
-    case 'SUCCESS':
+    case 'RECIPE_SUCCESS':
       return {
         ...state,
         loading: false
       }
 
-    case 'ERROR':
+    case 'RECIPE_ERROR':
     return {
       ...state,
       loading:false,
       error: true,
       errorMessage: action.payload
     }
+
+    case 'RECIPES':
+      return {
+        ...state,
+        loading: false,
+        recipes: action.payload
+      }    
 
     case 'RECIPES_USER':
       return {
@@ -35,7 +43,7 @@ const recipeReducer = (state = initialState, action) => {
         recipesUser: action.payload
       }
 
-    case 'SET_RECIPE':
+    case 'RECIPE_SET':
       return {
         ...state,
         recipe: action.payload
