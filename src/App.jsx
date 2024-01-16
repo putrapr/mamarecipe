@@ -37,6 +37,21 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path='login' 
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>            
+          } 
+        />
+        <Route path='register' 
+          element={
+            <PublicRoute>
+              <Register />
+            </PublicRoute>            
+          } 
+        />
+
         <Route path='/' element={<Pages/>}>
           <Route path='' element={<Home />} />
           <Route path='recipe/:id' element={<DetailRecipe />} />
@@ -55,21 +70,7 @@ const App = () => {
               </PrivateRoute>              
             } 
           />
-        </Route>
-        <Route path='login' 
-          element={
-            <PublicRoute>
-              <Login />
-            </PublicRoute>            
-          } 
-        />
-        <Route path='register' 
-          element={
-            <PublicRoute>
-              <Register />
-            </PublicRoute>            
-          } 
-        />
+        </Route>        
       </Routes>
     </BrowserRouter>
   )

@@ -23,9 +23,9 @@ const Login = () => {
 
   return (
     <div className="2xl:container 2xl:mx-auto">
-      <div className="w-full flex 
-        max-sm:justify-center max-sm:items-center max-sm:h-screen max-sm:bg-[url('img/login/bg.svg')] max-sm:bg-cover max-sm:bg-center">
-        <div className="max-sm:hidden w-1/2 flex justify-center items-center h-screen 2xl:h-[1536px] bg-[url('img/login/bg.svg')] bg-cover bg-center">
+      <div className="w-full flex max-sm:bg-[url('../img/login/bg.svg')]
+        max-sm:justify-center max-sm:items-center max-sm:h-screen max-sm:bg-cover max-sm:bg-center">
+        <div className="bg-[url('../img/login/bg.svg')] max-sm:hidden w-1/2 flex justify-center items-center h-screen 2xl:h-[1536px] bg-cover bg-center">
           <img src="img/login/logo.svg" width="20%" alt="logo" className=" mt-4 mb-4"/>
         </div>
       
