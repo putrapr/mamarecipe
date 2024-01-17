@@ -1,21 +1,37 @@
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { Recipes } from '../../redux/action/recipeAction'
-import { useEffect } from 'react'
+import { Recipes, NewRecipe } from '../../redux/action/recipeAction'
+import { useEffect, useState } from 'react'
 
 const Home = () => {
   const dispatch = useDispatch()
-  const { loading, error } = useSelector((state) => state.recipe)
-
+  const { recipes, loading, error, newRecipe, popularRecipe } = useSelector((state) => state.recipe)
+  const [sortBy, setSortBy] = useState('')
+  // eslint-disable-next-line no-unused-vars
   const getRecipes = async () => {
     try {
-      await dispatch(Recipes())      
+      await dispatch(Recipes(sortBy))      
     } catch (err) { /* empty */ }
   }
 
+  const getNewRecipe = async () => {
+    try {
+      await dispatch(NewRecipe())
+    } catch (err) { /* empty */ }
+  }
+
+  const handleSortBy = (e) => {    
+    setSortBy(e.target.value)
+  }
+
+  // const getRecipesPagination = async () => {
+  //   try
+  // }
+
   useEffect(() => {
-    getRecipes()    
-  },[])
+    getRecipes()
+    getNewRecipe()
+  },[sortBy])
 
   return (
     <>
@@ -45,9 +61,8 @@ const Home = () => {
             </div>
             <div className="bg-primary w-[27%] h-full"></div>
           </div>
-          <img className="absolute w-48 sm:w-56 md:w-64 lg:w-96 xl:w-[36.5%] right-12 sm:right-16 md:right-28 xl:right-24 max-[500px]:top-52 top-40 sm:top-24 md:top-32 xl:top-36 rounded-md"
-            src="img/landing-page/1.svg" 
-            // src={recipes[0] ? recipes[0].image : ''} 
+          <img className="absolute w-48 sm:w-56 md:w-64 lg:w-96 xl:w-[36.5%] right-12 sm:right-16 md:right-28 xl:right-24 max-[500px]:top-52 top-40 sm:top-24 md:top-32 xl:top-36"
+            src="img/landing-page/1.svg"  
             alt="img-landing"/>
         </section>
         {/* Search End */}
@@ -60,13 +75,13 @@ const Home = () => {
           </div>
 
           <div className="w-full md:flex px-10 md:px-16 xl:px-20">
-            <img src="img/landing-page/2.svg" alt="img-popular" className="w-72 md:w-1/2 outline-corner xl:outline-corner-lg mb-12"/>
+            <img src={popularRecipe?.image}  alt="img-popular" className="w-72 md:w-1/2 outline-corner xl:outline-corner-lg mb-12 rounded-md"/>
             
             <div className="md:ps-16 lg:ps-32 xl:ps-40 md:flex md:flex-col md:justify-center">
-              <h2 className="text-[#3F3A3A] text-xl md:text-2xl lg:text-3xl xl:text-[2.7rem]/[3.5rem] font-bold">Healthy Bone Broth Ramen (Quick & Easy)</h2>
+              <h2 className="text-[#3F3A3A] text-xl md:text-2xl lg:text-3xl xl:text-[2.7rem]/[3.5rem] font-bold">{popularRecipe?.title}</h2>
               <div className="w-10 xl:w-20 h-2 border-b border-[#6F6A40]"></div>
-              <p className="text-[#3F3A3A] mt-3 mb-8 text-sm xl:text-xl ">Quick + Easy Chicken Bone Broth Ramen Healthy chicken ramen in a hurry? That&apos;s right!</p>
-              <Link to="/recipe" className="bg-primary text-xs px-[1.35rem] py-3 xl:px-[2.65rem] xl:py-4 rounded xl:rounded-md text-white tracking-wider xl:tracking-widest active:ring md:w-28 xl:w-40">Learn More</Link>
+              {/* <p className="text-[#3F3A3A] mt-3 mb-8 text-sm xl:text-xl">Quick + Easy Chicken Bone Broth Ramen Healthy chicken ramen in a hurry? That&apos;s right!</p> */}
+              <Link to={`/recipe/${popularRecipe?.id}`} className="mt-10 bg-primary text-xs px-[1.35rem] py-3 xl:px-[2.65rem] xl:py-4 rounded xl:rounded-md text-white tracking-wider xl:tracking-widest active:ring md:w-28 xl:w-40">Learn More</Link>
             </div>
           </div>
         </section>
@@ -82,12 +97,12 @@ const Home = () => {
           <div className="w-full md:flex px-10 md:px-16 xl:px-20 relative">
             <div className="w-2/5 h-80 md:h-full bg-primary absolute left-0 top-0"></div>
             
-            <img src="img/landing-page/3.svg" alt="img-new" className="h-80 w-80 md:w-1/2 md:h-auto object-cover relative top-7 xl:top-16"/>
+            <img src={newRecipe?.image} alt="img-new" className="h-80 w-80 md:w-1/2 md:h-auto object-cover relative top-7 xl:top-16 rounded-md"/>
             <div className="mt-14 md:ps-16 lg:ps-32 xl:ps-40 md:flex md:flex-col md:justify-center">
-              <h2 className="text-[#3F3A3A] text-xl md:text-2xl lg:text-3xl xl:text-[2.7rem]/[3.5rem] font-bold">Healthy Bone Broth Ramen (Quick & Easy)</h2>
+              <h2 className="text-[#3F3A3A] text-xl md:text-2xl lg:text-3xl xl:text-[2.7rem]/[3.5rem] font-bold">{newRecipe?.title}</h2>
               <div className="w-10 xl:w-20 h-2 border-b border-[#6F6A40]"></div>
-              <p className="text-[#3F3A3A] mt-3 mb-8 text-sm xl:text-xl">Quick + Easy Chicken Bone Broth Ramen Healthy chicken ramen in a hurry? That&apos;s right!</p>
-              <Link to="/recipe" className="bg-primary text-xs px-[1.35rem] py-3 xl:px-[2.65rem] xl:py-4 rounded xl:rounded-md text-white tracking-wider xl:tracking-widest active:ring md:w-28 xl:w-40">Learn more</Link>
+              {/* <p className="text-[#3F3A3A] mt-3 mb-8 text-sm xl:text-xl">Quick + Easy Chicken Bone Broth Ramen Healthy chicken ramen in a hurry? That&apos;s right!</p> */}
+              <Link to={`/recipe/${newRecipe?.id}`} className="mt-10 bg-primary text-xs px-[1.35rem] py-3 xl:px-[2.65rem] xl:py-4 rounded xl:rounded-md text-white tracking-wider xl:tracking-widest active:ring md:w-28 xl:w-40">Learn more</Link>
             </div>
           </div>    
         </section>  
@@ -100,49 +115,24 @@ const Home = () => {
             <h3 className="text-lg md:text-xl lg:text-2xl xl:text-4xl font-bold">Popular Recipe</h3>
           </div>
 
+          <div className='relative mb-10 flex justify-end'>  
+            <select onChange={handleSortBy} className="w-32 font-bold bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block p-2.5">
+              <option value="" selected disabled hidden>Sort by</option>
+              <option value="">New Recipe</option>
+              <option value="ASC">A - Z</option>
+              <option value="DESC">Z - A</option>
+            </select>
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-10 lg:gap-14">
-            
-            <Link to="/recipe" className="relative">
-              <img src="img/landing-page/4.svg" alt="img-4"/>
-              <div className="w-full absolute left-0 bottom-5 bg-[rgba(255,255,255,.3)]">
-                <p className="text-[#3F3A3A] font-bold text-xl xl:text-2xl px-5">Chiken Kare</p>
-              </div>        
-            </Link>
-
-            <Link to="/recipe" className="relative">
-              <img src="img/landing-page/5.svg" alt="img-5"/>
-              <div className="w-full absolute left-0 bottom-5 bg-[rgba(255,255,255,.3)]">
-                <p className="text-[#3F3A3A] font-bold text-xl xl:text-2xl px-5">Bomb Chicken</p>
-              </div>        
-            </Link>
-
-            <Link to="/recipe" className="relative">
-              <img src="img/landing-page/6.svg" alt="img-6"/>
-              <div className="w-full absolute left-0 bottom-5 bg-[rgba(255,255,255,.3)]">
-                <p className="text-[#3F3A3A] font-bold text-xl xl:text-2xl px-5">Banana Smothie Pop</p>
-              </div>        
-            </Link>
-
-            <Link to="/recipe" className="relative">
-              <img src="img/landing-page/7.svg" alt="img-7"/>
-              <div className="w-full absolute left-0 bottom-5 bg-[rgba(255,255,255,.3)]">
-                <p className="text-[#3F3A3A] font-bold text-xl xl:text-2xl px-5">Coffe Lava Cake</p>
-              </div>        
-            </Link>
-
-            <Link to="recipe" className="relative">
-              <img src="img/landing-page/8.svg" alt="img-8"/>
-              <div className="w-full absolute left-0 bottom-5 bg-[rgba(255,255,255,.3)]">
-                <p className="text-[#3F3A3A] font-bold text-xl xl:text-2xl px-5">Sugar Salmon</p>
-              </div>        
-            </Link>
-
-            <Link to="recipe" className="relative">
-              <img src="img/landing-page/9.svg" alt="img-9"/>
-              <div className="w-full absolute left-0 bottom-5 bg-[rgba(255,255,255,.3)]">
-                <p className="text-[#3F3A3A] font-bold text-xl xl:text-2xl px-5">Indian Salad</p>
-              </div>        
-            </Link>
+            { recipes?.map((item) => (
+              <Link to={`/recipe/${item?.id}`} className="relative max-md:h-56 md:h-64 xl:h-72" key={item?.id}>
+                <img src={ item?.image } alt="thumbnail-recipe" className='rounded-md object-cover w-full h-full'/>
+                <div className="w-full absolute left-0 bottom-5 bg-[rgba(255,255,255,.3)]">
+                  <p className="text-[#3F3A3A] font-bold text-xl xl:text-2xl px-5">{ item?.title }</p>
+                </div>        
+              </Link>
+            ))}
           </div>
         </section>
         {/* Popular Recipe End */}

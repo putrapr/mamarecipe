@@ -2,21 +2,30 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { RecipesByUser, deleteRecipe, setRecipe, updateRecipe } from '../../redux/action/recipeAction'
+import { User } from '../../redux/action/userAction'
 
 const Profile = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch()  
   const { recipesUser, recipe, loading, error, errorMessage } = useSelector((state) => state.recipe)
+  const { user } = useSelector((state) => state.user)
   const [showModal, setShowModal] = useState(false)
   
   const getRecipes = async () => {
     try {      
       await dispatch(RecipesByUser())      
     } catch(err){ /* empty */ }    
-  };
+  }
+
+  const getUser = async () => {
+    try {
+      await dispatch(User())
+    } catch (err) { /* empty */ }
+  }
 
   useEffect( () => {
-    getRecipes()    
-  }, []);
+    getRecipes()
+    getUser()
+  }, [])
 
   const handleDelete = async (e) => {
     const result = confirm("Are you sure to delete?");
@@ -52,17 +61,19 @@ const Profile = () => {
   return (
     <>
       { loading ? <h1>Loading</h1> 
-        : error ? <h1>Error</h1> : 
-        <>        
+        : error ? <h1>{ errorMessage }</h1> : 
+        <>
+        {console.log(user)}
           {/* Photo Profile Start */}
           <section className="flex flex-col justify-center items-center mt-40">
             <div className="w-36 relative flex justify-center">
-              <img src="img/profile/dp.jpg" alt="dp" className="w-32 rounded-full"/>
+              <img src={user.image == 'default.png' ? 'img/profile/default.png': user.image} 
+                alt="dp" className="w-32 rounded-full"/>
               <button className="absolute bottom-0 right-0">
                 <img src="img/profile/icon-pencil.svg" alt="icon-pencil" className="w-5"/>
               </button>
             </div>
-            <p className="mt-8 font-bold text-xl px-10 border-b-2">Putra Prasetya</p>
+            <p className="mt-8 font-bold text-xl px-10 border-b-2">{user.name}</p>
           </section>
           {/* Photo Profile End */}
 

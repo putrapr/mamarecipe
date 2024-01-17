@@ -1,4 +1,5 @@
-const initialState = {  
+const initialState = {
+  user: {},
   loading: false,
   error: false,
   errorMessage: ''
@@ -26,6 +27,13 @@ const userReducer = (state = initialState, action)=> {
         errorMessage: action.payload
       }
 
+    case 'USER':
+      return {
+        ...state,
+        loading: false,
+        user: action.payload
+      }
+      
     default :
       return {
         ...state,

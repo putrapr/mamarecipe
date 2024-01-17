@@ -1,33 +1,33 @@
-/* eslint-disable no-unused-vars */
-import { useState, useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import axios from 'axios'
-import Navbar from '../../components/module/Navbar'
+
+import { useEffect } from 'react'
+// import { Link, useParams } from 'react-router-dom'
+// import axios from 'axios'
+// import Navbar from '../../components/module/Navbar'
 
 const VideoRecipe = () => {
-  const { id } = useParams()
-  const BASE_URL = import.meta.env.VITE_API_URL
+  // const { id } = useParams()
+  // const BASE_URL = import.meta.env.VITE_API_URL
   // let video_link = 'Yi3vrsTEHoA'
   let video_link = ''
-  const [recipes, setRecipes] = useState([])
-  const [recipe, setRecipe] = useState([])
+  // const [recipes, setRecipes] = useState([])
+  // const [recipe, setRecipe] = useState([])
   // const [videoLink, SetVideoLink] = useState("")
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  // const [isLoading, setIsLoading] = useState(true);
+  // const [isError, setIsError] = useState(false);
+  // const [errorMessage, setErrorMessage] = useState("");
 
   const getRecipes = () => {
-    axios.get(`${BASE_URL}/recipe`)
-      .then((res) => {
-        setRecipes(res.data.data)
-      })
-      .catch((err) => {
-        setIsError(true)
-        setErrorMessage(err.message)
-      })
-      .finally(() => {
-        setIsLoading(false) 
-      })
+    // axios.get(`${BASE_URL}/recipe`)
+    //   .then((res) => {
+    //     setRecipes(res.data.data)
+    //   })
+    //   .catch((err) => {
+    //     setIsError(true)
+    //     setErrorMessage(err.message)
+    //   })
+    //   .finally(() => {
+    //     setIsLoading(false) 
+    //   })
   }
 
   useEffect( () => {
@@ -42,8 +42,8 @@ const VideoRecipe = () => {
 
   return (
     <>
-    { isLoading ? <h1>Loading</h1> 
-        : isError ? <h1>{ errorMessage }</h1> : 
+    {/* { isLoading ? <h1>Loading</h1> 
+        : isError ? <h1>{ errorMessage }</h1> :  */}
         <>        
           <div className="w-[4%] h-full bg-primary absolute left-0 top-0"></div>
           <div className="flex max-lg:flex-col max-sm:mx-[5%] max-md:mx-20 mx-40 gap-14 mt-28">
@@ -90,7 +90,7 @@ const VideoRecipe = () => {
             {/* Next Video End */}
           </div>
         </>
-      }
+      {/* } */}
     </>
   )
 }

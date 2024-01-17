@@ -17,7 +17,6 @@ const PrivateRoute = ({children}) => {
     return <Navigate to="/login" replace />
   return children
 }
-
 PrivateRoute.PropTypes = {
   children: PropTypes.node.isRequired
 }
@@ -28,7 +27,6 @@ const PublicRoute = ({children}) => {
     return <Navigate to="/" replace />
   return children
 }
-
 PublicRoute.PropTypes = {
   children: PropTypes.node.isRequired
 }

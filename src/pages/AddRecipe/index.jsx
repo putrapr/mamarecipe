@@ -7,7 +7,6 @@ const AddRecipe = () => {
   const { loading } = useSelector((state) => state.user)
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  // const BASE_URL = import.meta.env.VITE_API_URL
   const [showImage, setShowImage] = useState("")
 
 
@@ -20,17 +19,6 @@ const AddRecipe = () => {
     } catch(err) { 
       navigate('/recipe-add')
     }
-    
-    
-    // axios.post(`${BASE_URL}/recipe`, formData)
-    //   .then(() => {
-    //     alert("Recipe Added")
-    //     navigate('/profile')
-    //   })
-    //   .catch((err) => {
-    //     navigate('/recipe-add')
-    //   })
-
   }
 
   function handleChangeImage(e) {
@@ -46,7 +34,7 @@ const AddRecipe = () => {
     <>
       {/* Form Add Recipe Start */}
       <form onSubmit={handleSubmit} className="flex flex-col items-center max-[767px]:mx-[5%] mx-[16%] gap-10 mt-40 mb-20">
-        <input type="text" name="user_id" value="1" hidden/>
+        {/* <input type="text" name="user_id" value="1" hidden/> */}
         <label htmlFor="add-photo" className="bg-[#F6F5F4] w-full h-96 rounded-lg flex flex-col justify-center items-center gap-4 text-lg font-bold text-[#666666] cursor-pointer">
           <img src="img/add-recipe/icon-addimage.svg" alt="icon-image" className="w-12"/>
           <p>Add Photo</p>
@@ -55,7 +43,6 @@ const AddRecipe = () => {
         {showImage && (
           <img src={showImage ?? ""} alt="show" className='w-52 sm:w-96 sm:h-96 rounded object-cover' />
         )}
-
 
         <input className="bg-[#F6F5F4] w-full h-20 rounded-lg indent-10 text-lg placeholder:text-[#666666] placeholder:font-bold placeholder:tracking-wider" 
           placeholder="Title"

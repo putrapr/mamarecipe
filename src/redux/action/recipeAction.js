@@ -12,10 +12,11 @@ export const addRecipe = (data) => async (mydispatch) => {
   }
 }
 
-export const Recipes = () => async(mydispatch) => {
+export const Recipes = (sortBy) => async(mydispatch) => {
   try {
-    mydispatch({type: 'RECIPE_REQUEST'})
-    const res = await api.get('/recipes')
+    // mydispatch({type: 'RECIPE_REQUEST'})
+    const res = await api.get('/recipes-pagination', {params:{sortBy}})
+    console.log(res.data.data);
     mydispatch({type: 'RECIPES', payload: res.data.data})
   } catch(err) {
     mydispatch({type: 'RECIPE_ERROR', payload: err.message})
@@ -23,11 +24,36 @@ export const Recipes = () => async(mydispatch) => {
   }
 }
 
+export const RecipesPagination = (limit, page, sort) => async(mydispatch) => {
+  try {
+    mydispatch({type: 'RECIPE_REQUEST'})
+    const res = await api.get(`/recipe-pagination?limit=${limit}&page=${page}&sort=${sort}`)
+    mydispatch({type: 'RECIPES', payload: res.data.data})
+  } catch (err) { 
+    mydispatch({type: 'RECIPE_ERROR', payload: err.message})
+    alert(err.message)
+  }  
+}
+
 export const RecipesByUser = () => async (mydispatch) => {
   try {
     mydispatch({type: 'RECIPE_REQUEST'})
     const res = await api.get('/recipe-user')
     mydispatch({type: 'RECIPES_USER', payload: res.data.data})
+  } catch(err) {
+    mydispatch({type: 'RECIPE_ERROR', payload: err.message})
+    alert(err.message)
+  }
+}
+
+export const NewRecipe = () => async (mydispatch) => {
+  try {
+    // mydispatch({type: 'RECIPE_REQUEST'})
+    const res = await api.get('/recipe-one')    
+    mydispatch({type: 'RECIPE_NEW', payload: res.data.data[0]})
+    const res2 = await api.get('/recipe-one', { params: {sortBy: 'ASC'}})    
+    mydispatch({type: 'RECIPE_POPULAR', payload: res2.data.data[0]})
+    mydispatch({type: 'RECIPE_SUCCESS'})
   } catch(err) {
     mydispatch({type: 'RECIPE_ERROR', payload: err.message})
     alert(err.message)

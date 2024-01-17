@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-
 import { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import axios from 'axios'
@@ -7,7 +5,6 @@ import axios from 'axios'
 const DetailRecipe = () => {
   const { id } = useParams()
   const BASE_URL = import.meta.env.VITE_API_URL
-  let arrIngredient = []
   const [recipe, setRecipe] = useState([])
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);

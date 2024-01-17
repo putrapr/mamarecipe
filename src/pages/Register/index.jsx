@@ -19,7 +19,7 @@ const Register = () => {
       password: pass,
       name: e.target.name.value,
       phone: e.target.phone.value,
-      image: 'default.jpg'
+      image: 'default.png'
     }
     
     try {

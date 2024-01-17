@@ -2,6 +2,8 @@ const initialState = {
   recipes: [],
   recipesUser: [],
   recipe: {},
+  newRecipe:{},
+  popularRecipe: {},
   loading: false,
   error: false,
   errorMessage: ''
@@ -41,6 +43,18 @@ const recipeReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         recipesUser: action.payload
+      }
+
+    case 'RECIPE_NEW':
+      return {
+        ...state,
+        newRecipe: action.payload
+      }
+
+    case 'RECIPE_POPULAR':
+      return {
+        ...state,
+        popularRecipe: action.payload
       }
 
     case 'RECIPE_SET':
