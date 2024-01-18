@@ -12,27 +12,37 @@ export const addRecipe = (data) => async (mydispatch) => {
   }
 }
 
-export const Recipes = (sortBy) => async(mydispatch) => {
+export const Recipes = (sortBy, currentPage, limit=6) => async(mydispatch) => {
   try {
     // mydispatch({type: 'RECIPE_REQUEST'})
-    const res = await api.get('/recipes-pagination', {params:{sortBy}})
-    console.log(res.data.data);
-    mydispatch({type: 'RECIPES', payload: res.data.data})
+    const res = await api.get('/recipes-pagination', {
+      params:{
+        sortBy,
+        page: currentPage,
+        limit
+      }
+    })
+    mydispatch({type: 'RECIPES', payload: res.data})
   } catch(err) {
     mydispatch({type: 'RECIPE_ERROR', payload: err.message})
     alert(err.message)
   }
 }
 
-export const RecipesPagination = (limit, page, sort) => async(mydispatch) => {
+export const RecipeSearch = (keyword) => async(mydispatch) => {
   try {
-    mydispatch({type: 'RECIPE_REQUEST'})
-    const res = await api.get(`/recipe-pagination?limit=${limit}&page=${page}&sort=${sort}`)
-    mydispatch({type: 'RECIPES', payload: res.data.data})
-  } catch (err) { 
+    // mydispatch({type: 'RECIPE_REQUEST'})
+    const res = await api.get('/recipe-search', {
+      params:{
+        keyword
+      }
+    })
+    mydispatch({type: 'RECIPE_SEARCH', payload: res.data.data})
+    mydispatch({type: 'RECIPE_SETKEYWORD', payload: keyword})
+  } catch(err) {
     mydispatch({type: 'RECIPE_ERROR', payload: err.message})
     alert(err.message)
-  }  
+  }
 }
 
 export const RecipesByUser = () => async (mydispatch) => {

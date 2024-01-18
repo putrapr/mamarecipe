@@ -1,5 +1,8 @@
 const initialState = {
   recipes: [],
+  currentPage: 1,
+  totalPage: 1,
+  keyword: '',
   recipesUser: [],
   recipe: {},
   newRecipe:{},
@@ -31,12 +34,38 @@ const recipeReducer = (state = initialState, action) => {
       errorMessage: action.payload
     }
 
-    case 'RECIPES':
+    case 'RECIPES': {
+      const res = action.payload
       return {
         ...state,
         loading: false,
+        currentPage: res.currentPage,
+        totalPage:res.totalPage,
+        recipes: res.data,
+      }
+    }
+
+    case 'RECIPE_EDITPAGE': {
+      return {
+        ...state,
+        currentPage: action.payload
+      }
+    }
+
+    case 'RECIPE_SEARCH': {
+      return {
+        ...state,
+        loading:false,
         recipes: action.payload
-      }    
+      }
+    }
+
+    case 'RECIPE_SETKEYWORD': {
+      return {
+        ...state,
+        keyword: action.payload
+      }
+    }
 
     case 'RECIPES_USER':
       return {

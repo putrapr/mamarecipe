@@ -1,16 +1,17 @@
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { Recipes, NewRecipe } from '../../redux/action/recipeAction'
+import { Recipes, NewRecipe, RecipeSearch } from '../../redux/action/recipeAction'
 import { useEffect, useState } from 'react'
 
 const Home = () => {
   const dispatch = useDispatch()
-  const { recipes, loading, error, newRecipe, popularRecipe } = useSelector((state) => state.recipe)
+  const { recipes, currentPage, totalPage, keyword, loading, error, newRecipe, popularRecipe } = useSelector((state) => state.recipe)
   const [sortBy, setSortBy] = useState('')
-  // eslint-disable-next-line no-unused-vars
+
   const getRecipes = async () => {
     try {
-      await dispatch(Recipes(sortBy))      
+      if (keyword == '')
+        await dispatch(Recipes(sortBy, currentPage, 3))      
     } catch (err) { /* empty */ }
   }
 
@@ -24,14 +25,29 @@ const Home = () => {
     setSortBy(e.target.value)
   }
 
-  // const getRecipesPagination = async () => {
-  //   try
-  // }
+  const handleNext = () => {
+    dispatch({
+      type: 'RECIPE_EDITPAGE',
+      payload: currentPage + 1
+    })
+  }
 
+  const handlePrev = () => {
+    dispatch({
+      type: 'RECIPE_EDITPAGE',
+      payload: currentPage - 1
+    })
+  }
+
+  const handleSearch = async (e) => {
+    e.preventDefault()
+    await dispatch(RecipeSearch(e.target.search.value))
+    window.location.href = "#list-recipe";
+  }
   useEffect(() => {
     getRecipes()
     getNewRecipe()
-  },[sortBy])
+  },[sortBy, currentPage, keyword])
 
   return (
     <>
@@ -52,12 +68,12 @@ const Home = () => {
               <h2 className="text-[#2E266F] text-2xl sm:text-3xl lg:text-[3.2rem]/[4rem] font-bold ms-10 md:ms-16 xl:ms-24 max-sm:ms-14 max-[500px]:mt-3 max-sm:mt-8 xl:-mt-16">
                 Discover Recipe <br/> & Delicious Food    
               </h2>
-              <div className="relative max-sm:hidden w-48 sm:w-72 lg:w-1/2 rounded-md ms-10 md:ms-16 xl:ms-24 mt-5">
-                <input type="text" className="bg-[#EFEFEF] rounded-md xl:rounded-lg w-full p-3 xl:p-5 focus:outline-primary indent-7 text-sm" placeholder="Search Restaurant, Food"/>
-                <button className="absolute top-3.5 left-4 w-3.5 xl:w-4 xl:left-6 xl:top-5 active:w-5 active:top-3 active:left-3"> 
-                  <img src="img/landing-page/icon-search.svg" alt="icon-search"/>
+              <form onSubmit={handleSearch} action="#list-recipe" className="relative max-sm:hidden w-48 sm:w-72 lg:w-1/2 rounded-md ms-10 md:ms-16 xl:ms-24 mt-5">
+                <input type="text" name="search" placeholder="Search Restaurant, Food" className="bg-[#EFEFEF] rounded-md xl:rounded-lg w-full p-3 xl:p-5 focus:outline-primary indent-7 text-sm"/>
+                <button type='submit' htmlFor="search" className="absolute top-3.5 left-4 w-3.5 xl:w-4 xl:left-6 xl:top-5 active:w-5 active:top-3 active:left-3"> 
+                  <img src="img/landing-page/icon-search.svg" id="search" alt="icon-search"/>
                 </button>      
-              </div>
+              </form>
             </div>
             <div className="bg-primary w-[27%] h-full"></div>
           </div>
@@ -68,7 +84,7 @@ const Home = () => {
         {/* Search End */}
 
         {/* Popular For You ! Start */}
-        <section>
+        <section className={keyword && 'hidden'}> 
           <div className="flex items-center gap-2 lg:gap-4 xl:gap-6 mb-9 lg:mb-12 xl:mb-20 px-10 md:px-16 xl:px-28">
             <div className="h-10 md:h-12 lg:h-16 xl:h-28 w-2 xl:w-5 bg-primary"></div>
             <h3 className="text-lg md:text-xl lg:text-2xl xl:text-4xl font-bold">Popular For You !</h3>
@@ -88,13 +104,13 @@ const Home = () => {
         {/* Popular For You ! End */}
 
         {/* New Recipe Start */}
-        <section>
+        <section className={keyword && 'hidden'}>
           <div className="flex items-center gap-2 lg:gap-4 xl:gap-5 px-10 md:px-16 xl:px-28 mt-16 xl:my-20 md:mt-12 mb-9 lg:mb-12">
             <div className="h-10 md:h-12 lg:h-16 xl:h-28 w-2 xl:w-5 bg-primary"></div>
             <h3 className="text-lg md:text-xl lg:text-2xl xl:text-4xl font-bold">New Recipe</h3>
           </div>
 
-          <div className="w-full md:flex px-10 md:px-16 xl:px-20 relative">
+          <div className="relative w-full md:flex px-10 md:px-16 xl:px-20 mb-16 md:mb-24 xl:mb-44">
             <div className="w-2/5 h-80 md:h-full bg-primary absolute left-0 top-0"></div>
             
             <img src={newRecipe?.image} alt="img-new" className="h-80 w-80 md:w-1/2 md:h-auto object-cover relative top-7 xl:top-16 rounded-md"/>
@@ -109,13 +125,13 @@ const Home = () => {
         {/* New Recipe End */}
 
         {/* Popular Recipe Start */}
-        <section className="px-10 md:px-16 xl:px-28 mb-20">
-          <div className="flex items-center gap-2 lg:gap-4 xl:gap-5 mt-16 md:mt-24 lg:mt-24 xl:mt-44 mb-9 lg:mb-12 xl:mb-20">
+        <section className="px-10 md:px-16 xl:px-28 mb-20" id="list-recipe">          
+          <div className="flex items-center gap-2 lg:gap-4 xl:gap-5 mb-9 lg:mb-12 xl:mb-20">
             <div className="h-10 md:h-12 lg:h-16 xl:h-28 w-2 xl:w-5 bg-primary"></div>
-            <h3 className="text-lg md:text-xl lg:text-2xl xl:text-4xl font-bold">Popular Recipe</h3>
+            <h3 className="text-lg md:text-xl lg:text-2xl xl:text-4xl font-bold">{keyword? 'Result':'Popular Recipe'}</h3>
           </div>
 
-          <div className='relative mb-10 flex justify-end'>  
+          <div className={`relative mb-10 flex justify-end ` + (keyword && 'hidden')}>  
             <select onChange={handleSortBy} className="w-32 font-bold bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block p-2.5">
               <option value="" selected disabled hidden>Sort by</option>
               <option value="">New Recipe</option>
@@ -133,6 +149,22 @@ const Home = () => {
                 </div>        
               </Link>
             ))}
+          </div>
+                  
+          <div className={`flex justify-between mt-8 `+ (keyword && 'hidden')}>
+            <div className={currentPage == 1 ? 'flex': 'hidden'}></div>
+            <button onClick={handlePrev} className={currentPage == 1 ? 'hidden': 'flex' + ` items-center justify-center px-4 h-10 text-base font-medium text-white bg-gray-800 rounded-s hover:bg-gray-900`}>
+                <svg className="w-3.5 h-3.5 me-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 5H1m0 0 4 4M1 5l4-4"/>
+                </svg>
+                Prev
+            </button>
+            <button onClick={handleNext} className={ currentPage == totalPage ? 'hidden': 'flex' +` items-center justify-center px-4 h-10 text-base font-medium text-white bg-gray-800 border-0 border-s border-gray-700 rounded-e hover:bg-gray-900`}>
+                Next
+                <svg className="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+              </svg>
+            </button>
           </div>
         </section>
         {/* Popular Recipe End */}
