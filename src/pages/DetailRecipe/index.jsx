@@ -1,27 +1,15 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import axios from 'axios'
+import {useDispatch, useSelector} from'react-redux'
+import { SingleRecipe } from '../../redux/action/recipeAction'
 
 const DetailRecipe = () => {
   const { id } = useParams()
-  const BASE_URL = import.meta.env.VITE_API_URL
-  const [recipe, setRecipe] = useState([])
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const dispatch = useDispatch()
+  const { recipe, loading, error, errorMessage } = useSelector((state) => state.recipe)
 
   const getRecipe = () => {
-    axios.get(`${BASE_URL}/recipe/${id}`)
-      .then((res) => {
-        setRecipe(res.data.data);
-      })
-      .catch((err) => {
-        setIsError(true);
-        setErrorMessage(err.message);
-      })
-      .finally(() => {
-        setIsLoading(false)
-      })
+    dispatch(SingleRecipe(id))
   }
 
   useEffect( () => {
@@ -30,9 +18,10 @@ const DetailRecipe = () => {
   
   return (
     <>
-      { isLoading ? <h1>Loading</h1> 
-        : isError ? <h1>{ errorMessage }</h1> : 
+      { loading ? <h1>Loading</h1> 
+        : error ? <h1>{ errorMessage }</h1> : 
         <>
+        
           {/* Title Start */}
           <section className="flex flex-col justify-start items-center mt-28 gap-14">
             <h1 className="max-lg:text-5xl text-[3.5rem] text-[#2E266F] font-bold text-center mx-5">{ recipe.title }</h1>
@@ -45,7 +34,7 @@ const DetailRecipe = () => {
             <section className="mt-20">
               <h2 className="max-lg:text-3xl text-4xl font-bold text-[#3F3A3A] tracking-wide mb-10">Ingredients</h2>
               {
-                recipe.ingredient.split("\n").map((data, index) => (
+                recipe?.ingredient?.split("\n").map((data, index) => (
                   <p className="max-lg:text-2xl text-3xl leading-10" key={index}>{data} &nbsp;</p>
                 ))
               }

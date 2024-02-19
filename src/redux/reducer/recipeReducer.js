@@ -89,6 +89,7 @@ const recipeReducer = (state = initialState, action) => {
     case 'RECIPE_SET':
       return {
         ...state,
+        loading: false,
         recipe: action.payload
       }
            

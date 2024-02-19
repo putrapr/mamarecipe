@@ -95,3 +95,13 @@ export const updateRecipe = (id, recipe) => async (mydispatch) => {
     mydispatch({type: 'RECIPE_ERROR', payload: err.message})
   }
 }
+
+export const SingleRecipe = (id) => async (mydispatch) => {
+  try {
+    mydispatch({type: 'RECIPE_REQUEST'})
+    const res = await api.get(`/recipe/${id}`)
+    mydispatch({type: 'RECIPE_SET', payload: res.data.data})  
+  } catch(err) {
+    mydispatch({type: 'RECIPE_ERROR', payload: err.message})
+  }
+}

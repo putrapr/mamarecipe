@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Pages from './pages'
 import Login from './pages/Login'
@@ -8,7 +9,7 @@ import VideoRecipe from './pages/VideoRecipe'
 import AddRecipe from './pages/AddRecipe'
 import Profile from './pages/Profile'
 import { jwtDecode } from "jwt-decode";
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 const PrivateRoute = ({children}) => {
   const token = localStorage.getItem('token')
@@ -17,9 +18,9 @@ const PrivateRoute = ({children}) => {
     return <Navigate to="/login" replace />
   return children
 }
-PrivateRoute.PropTypes = {
-  children: PropTypes.node.isRequired
-}
+// PrivateRoute.PropTypes = {
+//   children: PropTypes.node.isRequired
+// }
 
 const PublicRoute = ({children}) => {
   const token = localStorage.getItem('token')  
@@ -27,9 +28,9 @@ const PublicRoute = ({children}) => {
     return <Navigate to="/" replace />
   return children
 }
-PublicRoute.PropTypes = {
-  children: PropTypes.node.isRequired
-}
+// PublicRoute.PropTypes = {
+//   children: PropTypes.node.isRequired
+// }
 
 const App = () => {
   return (
