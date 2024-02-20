@@ -76,17 +76,21 @@ npm start
 ```
 
 ## Screenshot
-| Login Page | Register Page |
+| Register Page | Login Page |
 |------------|---------------|
-|![Login Page](https://drive.google.com/file/d/1eXnlHZUTY2wETrZY4DTfnamy69oVwRK_/view?usp=drive_link) | ![Register Page](https://drive.google.com/file/d/1W9GNdO8Kh0hHI1OZwbrYpylIeSIpprXr/view?usp=sharing)|  
+|![Register Page](https://drive.google.com/uc?export=view&id=1eXnlHZUTY2wETrZY4DTfnamy69oVwRK_) | ![Login Page](https://drive.google.com/uc?export=view&id=1W9GNdO8Kh0hHI1OZwbrYpylIeSIpprXr)|  
 
 | Home Page | Detail Recipe Page |
 |-----------|--------------------|
-|![Home Page](https://github.com/putrapr/mamarecipe/blob/master/src/assets/image/screenshot/React-App%20(3).png) | ![Detail Recipe Page](https://github.com/putrapr/mamarecipe/blob/master/src/assets/image/screenshot/React-App%20(4).png)|  
+|![Home Page](https://drive.google.com/uc?export=view&id=1qaBfXjcgnFpUUofmBO7umJivyjHp4WGo) | ![Detail Recipe Page](https://drive.google.com/uc?export=view&id=1FWO4TE-aKjbuGq3MDu0doCRMnd9dhzZl)|  
 
-| Add Recipe Page | Profile Page |
-|-----------------|--------------|
-|![Add Recipe Page](https://github.com/putrapr/mamarecipe/blob/master/src/assets/image/screenshot/React-App%20(5).png) | ![Profile Page](https://github.com/putrapr/mamarecipe/blob/master/src/assets/image/screenshot/React-App%20(6).png)|
+| Profile Page | Add Recipe Page |
+|-----------|-----------------|
+|![Home Page](https://drive.google.com/uc?export=view&id=1dmdpPrMEpMOPDIl1Zu8m1WrP4VYKTzy3) | ![Add Recipe Page](https://drive.google.com/uc?export=view&id=16MHFC0tDngKRcmY-4htSvLXPj7KgwIFo) |
+
+| Update Recipe |
+|--------------|
+| ![Profile Page](https://drive.google.com/uc?export=view&id=1xa3rR_7_V4IszgZCkg9miXeCHbHot7wq)|
 
 ## Demo
 [Mama Recipe Web Application](https://mamarecipe.vercel.app)
