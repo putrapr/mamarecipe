@@ -6,12 +6,13 @@ import { useEffect, useState } from 'react'
 const Home = () => {
   const dispatch = useDispatch()
   const { recipes, currentPage, totalPage, keyword, loading, error, newRecipe, popularRecipe } = useSelector((state) => state.recipe)
+  const [sort, setSort] = useState('')
   const [sortBy, setSortBy] = useState('')
 
   const getRecipes = async () => {
     try {
       if (keyword == '')
-        await dispatch(Recipes(sortBy, currentPage, 3))      
+        await dispatch(Recipes(sort, sortBy, currentPage, 9))  
     } catch (err) { /* empty */ }
   }
 
@@ -21,8 +22,14 @@ const Home = () => {
     } catch (err) { /* empty */ }
   }
 
-  const handleSortBy = (e) => {    
-    setSortBy(e.target.value)
+  const handleSortBy = (e) => {
+    if (e.target.value == 'new') {
+      setSort('id')
+      setSortBy('desc')
+    } else {
+      setSort('title')
+      setSortBy(e.target.value)
+    }
   }
 
   const handleNext = () => {
@@ -134,7 +141,7 @@ const Home = () => {
           <div className={`relative mb-10 flex justify-end ` + (keyword && 'hidden')}>  
             <select onChange={handleSortBy} className="w-32 font-bold bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block p-2.5">
               <option value="" selected disabled hidden>Sort by</option>
-              <option value="">New Recipe</option>
+              <option value="new">New Recipe</option>
               <option value="ASC">A - Z</option>
               <option value="DESC">Z - A</option>
             </select>

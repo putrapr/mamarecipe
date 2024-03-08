@@ -12,11 +12,12 @@ export const addRecipe = (data) => async (mydispatch) => {
   }
 }
 
-export const Recipes = (sortBy, currentPage, limit=6) => async(mydispatch) => {
+export const Recipes = (sort, sortBy, currentPage, limit=6) => async(mydispatch) => {
   try {
     // mydispatch({type: 'RECIPE_REQUEST'})
     const res = await api.get('/recipes-pagination', {
       params:{
+        sort,
         sortBy,
         page: currentPage,
         limit
