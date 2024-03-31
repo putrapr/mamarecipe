@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import {useDispatch, useSelector} from'react-redux'
 import { SingleRecipe } from '../../redux/action/recipeAction'
 
@@ -10,6 +10,14 @@ const DetailRecipe = () => {
 
   const getRecipe = () => {
     dispatch(SingleRecipe(id))
+  }
+
+  const getIdYoutube = (video_link) => {
+    if (video_link) {
+      const arrVideo = video_link.split("=")
+      video_link = arrVideo[1]
+      return video_link
+    }
   }
 
   useEffect( () => {
@@ -42,16 +50,18 @@ const DetailRecipe = () => {
             {/* Ingredient End */}
           
             {/* Video Start */}
-            <section className="mt-20">
+            <section className="mt-20 mb-28">
               <h2 className="text-[#3F3A3A] max-lg:text-3xl text-4xl font-bold tracking-wide">Video</h2>
-              <Link to={`/recipe-video/${id}`} className="mt-9 max-sm:w-56 w-80 max-sm:h-14 h-20 bg-primary rounded-xl flex justify-center items-center">
-                <img src="../img/detail-recipe/icon-play.svg" alt="icon-play"/>
-              </Link>
-            </section>
+              <div className="max-lg:w-full w-[75%] mt-12 ">
+                <iframe className="w-full aspect-video" 
+                  src={ "https://www.youtube.com/embed/"+ getIdYoutube(recipe.video_link) }
+                ></iframe>
+              </div>
+            </section>            
             {/* Video End */}
           
             {/* Comment Start */}
-            <section className="mt-28 flex flex-col max-sm:mx-0 mx-5 mb-44">
+            {/* <section className="mt-28 flex flex-col max-sm:mx-0 mx-5 mb-44">
               <textarea rows="9" cols="50" className="border bg-[#F6F5F4] rounded-lg p-7 font-bold text-[#666666] text-lg" placeholder="Comment :"></textarea>
               <button className="w-80 h-12 rounded bg-primary self-center mt-7 text-xs text-white">Send</button>
               <h2 className="text-[#3F3A3A] max-lg:text-3xl text-4xl font-bold tracking-wide mt-12 mb-10">Comment</h2>
@@ -62,7 +72,7 @@ const DetailRecipe = () => {
                   <p className="text-lg">Nice Recipe. Simple And Delicious, Thankyou</p>
                 </div>
               </div>  
-            </section>    
+            </section>     */}
             {/* Comment End */}
           </div>
         </>
